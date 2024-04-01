@@ -1,8 +1,6 @@
 import {
-useQuery,
+
 useMutation,
-useInfiniteQuery,
-useQueryClient
 } from '@tanstack/react-query';
 import { INewUser } from 'types';
 import { createUserAccount, signInAccount } from '../api';

@@ -6,4 +6,10 @@ export const SignupformSchema = z.object({
   username: z.string().min(2,{message:"string is short"}),
   email:z.string().min(8,{message:"string is short"}),
   password:z.string().min(8,{message:"Password must be latest at 8 charecter"}),
+});
+
+
+export const SigninformSchema = z.object({
+  email:z.string().min(8,{message:"string is short"}),
+  password:z.string().min(8,{message:"Password must be latest at 8 charecter"}),
 })
