@@ -44,3 +44,57 @@ export async function getCurrentUser() {
         throw error;
     }
 }
+
+export async function createPost(post:{
+    caption: string,
+    location:string,
+    tags : string,
+    image : any,
+    creator_id:string
+    }){
+
+    const formData = new FormData();
+    formData.append('caption', post.caption);
+    formData.append('location', post.location);
+    formData.append('tags', post.tags);
+    formData.append('creator_id',post.creator_id);
+    formData.append('image', post.image[0]);
+
+      
+
+    try{
+        const response = await axios.post('http://localhost:3001/v1/post/create', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          });
+
+          console.log(response.data);
+          return response.data;
+
+
+    }catch(error){
+
+        console.log(error);
+        throw error;
+
+    }
+}
+
+
+
+export async function getRecentPosts() {
+    try{
+        const response= await axios.get('http://localhost:3001/v1/post',{
+            params:{
+                limit: 20
+            }
+        })
+        return response.data;
+
+    }catch(error){
+        console.log(error);
+        throw error
+    }
+    
+}

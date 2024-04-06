@@ -14,26 +14,45 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "../ui/textarea";
 import FileUploader from "../shared/FileUploader";
 import { PostValidation } from "@/lib/validation";
+import { useCreatePost } from "@/lib/react-query/queriesAndMutions";
+import { useUserContext } from "@/context/AuthContext";
+import { useToast } from "../ui/use-toast";
+import { useNavigate } from "react-router-dom";
 
  
 
 
 function PostForms({post}) {
+  const navigate = useNavigate();
+  const { mutateAsync: createPost } = useCreatePost();
+  const { user } = useUserContext();
+  const { toast } = useToast();
 
   const form = useForm<z.infer<typeof PostValidation>>({
     resolver: zodResolver(PostValidation),
     defaultValues: {
       caption: post ? post?.caption : "",
-      file: [],
+      image: [],
       location: post ? post.location : "",
       tags: post ? post.tags.join(",") : "",
     },
   });
 
 
-  function onSubmit(values: z.infer<typeof PostValidation>) {
- 
-    console.log(values)
+ async function onSubmit(values: z.infer<typeof PostValidation>) {
+  console.log(values)
+    const newPost= await createPost({
+      ...values,
+      creator_id:user.id
+    });
+    if(!newPost){
+      toast({
+        title: `created post failed. Please try again.`,
+      });
+      return
+    };
+    return navigate('/');
+
   }
   return (
     <Form {...form}>
@@ -54,7 +73,7 @@ function PostForms({post}) {
         
         <FormField
           control={form.control}
-          name="file"
+          name="image"
           render={({ field }) => (
             <FormItem>
               <FormLabel className="shad-form_label">Add Photos</FormLabel>

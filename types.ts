@@ -14,11 +14,11 @@ export type INavLink = {
   };
   
   export type INewPost = {
-    userId: string;
+    creator_id: string;
     caption: string;
-    file: File[];
-    location?: string;
-    tags?: string;
+    image: any;
+    location: string;
+    tags: string;
   };
   
   export type IUpdatePost = {
