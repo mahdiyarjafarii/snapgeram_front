@@ -82,7 +82,6 @@ export async function createPost(post:{
 }
 
 
-
 export async function getRecentPosts() {
     try{
         const response= await axios.get('http://localhost:3001/v1/post',{
@@ -98,3 +97,59 @@ export async function getRecentPosts() {
     }
     
 }
+
+
+export async function likePost(userId:string,postId:string){
+    try{
+        const likePost = await axios.post('http://localhost:3001/v1/post/like', {
+            userId,
+            postId
+        });
+        return likePost.data;
+      
+
+    }catch(error){
+        console.log(error)
+    }
+};
+export async function deleteLikePost(userId:string,postId:string){
+    try{
+        const likePost = await axios.post('http://localhost:3001/v1/post/like/delete', {
+            userId,
+            postId
+        });
+        return likePost.data;
+      
+
+    }catch(error){
+        console.log(error)
+    }
+};
+
+export async function savePost(userId:string,postId:string){
+    try{
+        const savePost = await axios.post('http://localhost:3001/v1/post/save', {
+            userId,
+            postId
+        });
+        return savePost.data;
+      
+
+    }catch(error){
+        console.log(error)
+    }
+};
+export async function deleteSavePost(userId:string,postId:string){
+    try{
+        const savePost = await axios.post('http://localhost:3001/v1/post/save/delete', {
+            userId,
+            postId
+        });
+        return savePost.data;
+      
+
+    }catch(error){
+        console.log(error)
+    }
+};
+
