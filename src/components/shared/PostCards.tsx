@@ -1,11 +1,11 @@
 import { useUserContext } from "@/context/AuthContext";
 import { multiFormatDateString } from "@/lib/utils"
 import { Link } from "react-router-dom"
+import PostStats from "./PostStats";
 
 
-function PostCards({post}) {
+function PostCards({post}:{post:any}) {
     const { user } = useUserContext();
-
     if (!post.creator) return;
   
   return (
@@ -70,6 +70,8 @@ function PostCards({post}) {
           className="post-card_img"
         />
       </Link>
+      <PostStats post={post} userId={user.id} />
+
     </div>
   )
 }

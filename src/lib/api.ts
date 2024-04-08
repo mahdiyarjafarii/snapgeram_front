@@ -37,7 +37,6 @@ export async function getCurrentUser() {
                 'Authorization': `${localToken}`
             }
         });
-        console.log(response.data);
         return response.data;
     } catch (error) {
         console.log(error);
@@ -69,7 +68,6 @@ export async function createPost(post:{
             },
           });
 
-          console.log(response.data);
           return response.data;
 
 
@@ -80,6 +78,45 @@ export async function createPost(post:{
 
     }
 }
+
+export async function updatePost(post:{
+    caption: string,
+    location:string,
+    tags : string,
+    image? : any,
+    post_id:string
+    imageUrl:string 
+    }){
+
+    const formData = new FormData();
+    formData.append('caption', post.caption);
+    formData.append('location', post.location);
+    formData.append('tags', post.tags);
+    formData.append('post_id',post.post_id);
+    formData.append('image', post.image[0]);
+    formData.append('imageUrl', post.imageUrl);
+
+
+      
+
+    try{
+        const response = await axios.post('http://localhost:3001/v1/post/update', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          });
+
+          return response.data;
+
+
+    }catch(error){
+
+        console.log(error);
+        throw error;
+
+    }
+}
+
 
 
 export async function getRecentPosts() {
@@ -152,4 +189,15 @@ export async function deleteSavePost(userId:string,postId:string){
         console.log(error)
     }
 };
+
+export async function getPostById(postId?:string){
+    try{
+        const post=await axios.get(`http://localhost:3001/v1/post/${postId}`);
+        return post.data
+
+    }catch(error){
+        console.log(error);
+        throw error
+    }
+}
 

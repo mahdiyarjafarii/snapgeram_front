@@ -14,17 +14,26 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "../ui/textarea";
 import FileUploader from "../shared/FileUploader";
 import { PostValidation } from "@/lib/validation";
-import { useCreatePost } from "@/lib/react-query/queriesAndMutions";
+import { useCreatePost, useUpdatePost } from "@/lib/react-query/queriesAndMutions";
 import { useUserContext } from "@/context/AuthContext";
 import { useToast } from "../ui/use-toast";
 import { useNavigate } from "react-router-dom";
+import Loader from "../shared/Loader";
+
+type PostFormProps = {
+  post?: any;
+  action?: string;
+};
 
  
 
 
-function PostForms({post}) {
+function PostForms({post,action}:PostFormProps) {
   const navigate = useNavigate();
-  const { mutateAsync: createPost } = useCreatePost();
+  const { mutateAsync: createPost, isPending: isLoadingCreate } =
+  useCreatePost();
+const { mutateAsync: updatePost, isPending: isLoadingUpdate } =
+  useUpdatePost();
   const { user } = useUserContext();
   const { toast } = useToast();
 
@@ -40,18 +49,41 @@ function PostForms({post}) {
 
 
  async function onSubmit(values: z.infer<typeof PostValidation>) {
-  console.log(values)
-    const newPost= await createPost({
-      ...values,
-      creator_id:user.id
-    });
-    if(!newPost){
-      toast({
-        title: `created post failed. Please try again.`,
+  try{
+
+    if (post && action === "Update") {
+
+      const updatedPost = await updatePost({
+        ...values,
+        post_id: post.post_id,
+        imageUrl: post.imageUrl,
+       
       });
-      return
-    };
-    return navigate('/');
+  
+      if (!updatedPost) {
+        toast({
+          title: `${action} post failed. Please try again.`,
+        });
+      }
+      return navigate(`/posts/${post.post_id}`);
+    }
+  
+      const newPost= await createPost({
+        ...values,
+        creator_id:user.id
+      });
+      if(!newPost){
+        toast({
+          title: `created post failed. Please try again.`,
+        });
+        return
+      };
+      return navigate('/');
+  
+  }catch(error){
+    console.log(error)
+  }
+
 
   }
   return (
@@ -127,9 +159,11 @@ function PostForms({post}) {
             Cancel
         </Button>
         <Button
+         disabled={isLoadingCreate || isLoadingUpdate}
          className="shad-button_primary whitespace-nowrap"
          type="submit">
-            Submit
+          {(isLoadingCreate || isLoadingUpdate) && <Loader />}
+            {action} Post
         </Button>
         </div>
       </form>

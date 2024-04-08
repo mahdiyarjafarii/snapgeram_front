@@ -4,11 +4,11 @@ import { useGetRecentPosts } from "@/lib/react-query/queriesAndMutions";
 
 
 const Home = () => {
-  console.log("renderd")
+
 
   const {
     data: posts,
-    isLoading: isPostLoading,
+    // isLoading: isPostLoading,
     isError: isErrorPosts,
   } =  useGetRecentPosts();
   return (
