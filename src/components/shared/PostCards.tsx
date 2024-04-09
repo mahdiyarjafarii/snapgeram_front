@@ -52,7 +52,7 @@ function PostCards({post}:{post:any}) {
       </div>
 
 
-      <Link to={`/posts/${post.$id}`}>
+      <Link to={`/posts/${post.post_id}`}>
         <div className="small-medium lg:base-medium py-5">
           <p>{post.caption}</p>
           <ul className="flex gap-1 mt-2">

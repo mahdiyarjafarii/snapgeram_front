@@ -200,4 +200,13 @@ export async function getPostById(postId?:string){
         throw error
     }
 }
+export async function deletePost(postId?:string){
+    try{
+        const deletedPost=await axios.delete(`http://localhost:3001/v1/post/${postId}`);
+        return deletedPost.data;
+
+    }catch(error){
+        console.log(error)
+    }
+}
 

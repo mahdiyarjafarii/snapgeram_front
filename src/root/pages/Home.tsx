@@ -24,7 +24,7 @@ const Home = () => {
                 <ul className="grid 2xl:grid-cols-2 gap-6">
                   {posts && posts.map((post:any)=>{
                     return(
-                      <li key={post.$id} className="flex justify-center w-full">
+                      <li key={post.post_id} className="flex justify-center w-full">
                         <PostCards post={post} />
                       </li>  
 
