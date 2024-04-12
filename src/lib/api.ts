@@ -117,6 +117,20 @@ export async function updatePost(post:{
     }
 }
 
+export async function getUserById(userId: string) {
+    try{
+        const user=await axios.get("http://localhost:3001/v1/auth",{
+            params:{
+                userId
+            }
+        });
+        return user.data;
+
+    }catch(error){
+        console.log(error)
+    }
+}
+
 
 
 export async function getRecentPosts() {
@@ -133,7 +147,26 @@ export async function getRecentPosts() {
         throw error
     }
     
-}
+};
+
+export async function searchPosts(searchTerm: string) {
+    try{
+        const response= await axios.get('http://localhost:3001/v1/post',{
+            params:{
+                searchTerm,
+                limit: 20
+            }
+        })
+        return response.data;
+
+    }catch(error){
+        console.log(error);
+        throw error
+    }
+    
+};
+
+
 
 
 export async function likePost(userId:string,postId:string){

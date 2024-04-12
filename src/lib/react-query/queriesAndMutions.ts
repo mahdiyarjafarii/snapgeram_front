@@ -3,7 +3,7 @@ import {
 useMutation, useQuery, useQueryClient,
 } from '@tanstack/react-query';
 import { INewPost, INewUser } from 'types';
-import { createPost, createUserAccount, deleteLikePost, deletePost, deleteSavePost, getCurrentUser, getPostById, getRecentPosts, likePost, savePost, signInAccount, updatePost } from '../api';
+import { createPost, createUserAccount, deleteLikePost, deletePost, deleteSavePost, getCurrentUser, getPostById, getRecentPosts, getUserById, likePost, savePost, searchPosts, signInAccount, updatePost } from '../api';
 import { QUERY_KEYS } from './querykey';
 
 export const useCreateUserAccount=()=>{
@@ -155,6 +155,22 @@ export const useGetPostById = (postId?: string) => {
           queryKey: [QUERY_KEYS.GET_RECENT_POSTS],
         });
       },
+    });
+  };
+
+  export const useSearchPosts = (searchTerm: string) => {
+    return useQuery({
+      queryKey: [QUERY_KEYS.SEARCH_POSTS, searchTerm],
+      queryFn: () => searchPosts(searchTerm),
+      enabled: !!searchTerm,
+    });
+  };
+
+  export const useGetUserById = (userId: string) => {
+    return useQuery({
+      queryKey: [QUERY_KEYS.GET_USER_BY_ID, userId],
+      queryFn: () => getUserById(userId),
+      enabled: !!userId,
     });
   };
   

@@ -34,7 +34,7 @@ const SignupForm = () => {
     resolver: zodResolver(SignupformSchema),
     defaultValues: {
       name:'',
-      username: '',
+      userName: '',
       email:'',
       password:''
     },
@@ -110,7 +110,7 @@ const SignupForm = () => {
 
          <FormField
           control={form.control}
-          name="username"
+          name="userName"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Username</FormLabel>
